@@ -4,7 +4,7 @@
 	<meta charset="UTF-8"> 
 	<title>Point Buy Calculator</title>
 	<link rel="stylesheet" href="style.css">
-	<script src="knockout-3.4.2.debug.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js" defer></script>
 	<script src="config.js" defer></script>
 	<script src="calculator.js" defer></script>
 </head>
@@ -27,7 +27,7 @@
 		</tbody>
 	</table>
 
-	<h2>Points Remaining: <span data-bind="text: pointTotal"></span></h2>
+	<h2>Points Remaining: <span data-bind="text: pointPool"></span></h2>
 	<table id="score-table">
 		<thead>
 		<tr>
@@ -45,7 +45,7 @@
 				<button data-bind="click: increase, enable: score() < config.scoreCap">+</button>
 				<button data-bind="click: decrease, enable: score() > 1">-</button>
 			</td>
-			<td data-bind="text: pointCost"></td>
+			<td data-bind="text: totalPointCost"></td>
 			<td data-bind="text: modifier"></td>
 		</tr>
 	</tbody>

@@ -1,150 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8"> 
 	<title>Point Buy Calculator</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="knockout-3.4.2.debug.js" defer></script>
+	<script src="config.js" defer></script>
+	<script src="calculator2.js" defer></script>
 </head>
 <body>
-<h1>Point Buy Calculator</h1>
+	<h1>Point Buy Calculator</h1>
 	<div class="config">
-		<label for="base-score">Base Score</label>
-		<input type="number" id="base-score" name="base-score">
-		
-		<label for="point-total">Point Total</label>
-		<input type="number" id="point-total" name="point-total">
-
-		<label for="score-cap">Score Cap</label>
-		<input type="number" id="score-cap" name="score-cap">
-
-		<br>
-
-		<h2>Point Costs</h2>
-		<table class="point-costs">
-			<tr>
-				<td class="score-level">1</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">2</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">3</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">4</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">5</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">6</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">7</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">8</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">9</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">10</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">11</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">12</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">13</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">14</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">15</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">16</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">17</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-			<tr>
-				<td class="score-level">18</td>
-				<td class="score-cost"><input type="number"></td>
-			</tr>
-		</table>
-
+		<h2>Config</h2>
+		<p>Base Score: <input type="number" data-bind="value: baseScore"></p>
+		<p>Point Total: <input type="number" data-bind="value: pointTotal"></p>
+		<p>Score Cap: <input type="number" data-bind="value: scoreCap"></p>
 	</div>
 
-	<div class="points">
-		<p class="points-remaining">Points Remaining: <span></span></p>
+	<h2>Point Costs</h2>
+	<table id="point-costs">
+		<tbody data-bind="foreach: pointCosts">
+			<tr>
+				<td data-bind="text: ($index() + 1)"></td>
+				<td><input type="number" data-bind="value: $data"></td>
+			</tr>
+		</tbody>
+	</table>
 
-		<table class="score-table">
-			<tr>
-				<th>Ability</th>
-				<th>Score</th>
-				<th>Point Cost</th>
-				<th>Modifier</th>
-			<tr>
-			<tr>
-				<td class="ability">Strength</td>
-				<td class="score"><input type="number"></td>
-				<td class="point-cost"></td>
-				<td class="modifier"></td>
-			</tr>
-			<tr>
-				<td class="ability">Dexterity</td>
-				<td class="score"><input type="number"></td>
-				<td class="point-cost"></td>
-				<td class="modifier"></td>
-			</tr>
-			<tr>
-				<td class="ability">Constitution</td>
-				<td class="score"><input type="number"></td>
-				<td class="point-cost"></td>
-				<td class="modifier"></td>
-			</tr>
-			<tr>
-				<td class="ability">Intelligence</td>
-				<td class="score"><input type="number"></td>
-				<td class="point-cost"></td>
-				<td class="modifier"></td>
-			</tr>
-			<tr>
-				<td class="ability">Wisdom</td>
-				<td class="score"><input type="number"></td>
-				<td class="point-cost"></td>
-				<td class="modifier"></td>
-			</tr>
-			<tr>
-				<td class="ability">Charisma</td>
-				<td class="score"><input type="number"></td>
-				<td class="point-cost"></td>
-				<td class="modifier"></td>
-			</tr>
-		</table>
-
-	</div>
-
+	<h2>Points Remaining: </h2>
+	<table id="score-table">
+		<thead>
+		<tr>
+			<th>Ability</th>
+			<th>Score</th>
+			<th>Point Cost</th>
+			<th>Modifier</th>
+		</tr>
+	</thead>
+	<tbody data-bind="foreach: abilityRows">
+		<tr>
+			<td data-bind="text: name"></td>
+			<td>
+				<span data-bind="text: score"></span>
+				<button data-bind="click: increase, enable: score() < config.scoreCap">+</button>
+				<button data-bind="click: decrease, enable: score() > 1">-</button>
+			</td>
+			<td data-bind="text: pointCost"></td>
+			<td data-bind="text: modifier"></td>
+		</tr>
+	</tbody>
+	</table>
 
 </body>
 </html>

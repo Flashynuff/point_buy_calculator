@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="style.css">
 	<script src="knockout-3.4.2.debug.js" defer></script>
 	<script src="config.js" defer></script>
-	<script src="calculator2.js" defer></script>
+	<script src="calculator.js" defer></script>
 </head>
 <body>
 	<h1>Point Buy Calculator</h1>
@@ -22,12 +22,12 @@
 		<tbody data-bind="foreach: pointCosts">
 			<tr>
 				<td data-bind="text: ($index() + 1)"></td>
-				<td><input type="number" data-bind="value: $data"></td>
+				<td><input type="number" data-bind="value: cost"></td>
 			</tr>
 		</tbody>
 	</table>
 
-	<h2>Points Remaining: </h2>
+	<h2>Points Remaining: <span data-bind="text: pointTotal"></span></h2>
 	<table id="score-table">
 		<thead>
 		<tr>

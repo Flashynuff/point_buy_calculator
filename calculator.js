@@ -1,3 +1,8 @@
+var config = ko.observable(defaultConfig);
+config.subscribe(function(newValue) {
+	my.viewModel.resetAll();	
+});
+
 function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
 	var self = this;
 	self.name = name;
@@ -11,7 +16,7 @@ function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
 	}, this);
 
 	self.modifier = ko.computed(function() {
-		return config.abilityModifiers[self.score() - 1];
+		return config().abilityModifiers[self.score() - 1];
 	}, this);
 
 	self.increase = function() {
@@ -58,45 +63,43 @@ function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
 				self.increase();
 			}
 		}
-		console.log(self.scoreOffset());
 	}
 
 }
 
 function PointCost(score, cost) {
 	var self = this;
-	var originalScore = score;
-	var originalCost = cost;
 	self.score = ko.observable(score);
 	self.cost = ko.observable(cost);
 
 	self.reset = function() {
-		self.score(originalScore);
-		self.cost(originalCost);
+		self.cost(config().pointCosts[self.score() - 1]);
 	};
 }
 
 function CalculatorViewModel() {
 	var self = this;
-	self.baseScore = ko.observable(config.baseScore);
-	self.pointTotal = ko.observable(config.pointTotal);
-	self.scoreCap = ko.observable(config.scoreCap);
+	self.baseScore = ko.observable(config().baseScore);
+	self.pointTotal = ko.observable(config().pointTotal);
+	self.scoreCap = ko.observable(config().scoreCap);
 	self.pointsOffset = ko.observable(0);
 	self.pointPool = ko.computed(function() {
 		return parseInt(self.pointTotal()) - parseInt(self.pointsOffset())
 	})
 
 	self.pointCosts = ko.observableArray();
-	for (var i = 0; i < config.pointCosts.length; i++){
+	for (var i = 0; i < config().pointCosts.length; i++){
 		self.pointCosts.push(
-			new PointCost((i + 1), config.pointCosts[i])
+			new PointCost((i + 1), config().pointCosts[i])
 		);
 	}
 
 	self.abilityRows = ko.observableArray();
-	for (var i = 0; i < config.abilityNames.length; i++){
-		self.abilityRows.push(new AbilityRow(config.abilityNames[i], self.baseScore, self.pointCosts, self.pointsOffset))
+	for (var i = 0; i < config().abilityNames.length; i++){
+		self.abilityRows.push(new AbilityRow(config().abilityNames[i], self.baseScore, self.pointCosts, self.pointsOffset))
 	}
+
+	self.configs = ko.observableArray(configArray);
 
 	self.resetAbilities = function() {
 		ko.utils.arrayForEach(self.abilityRows(), function(row) {
@@ -111,9 +114,9 @@ function CalculatorViewModel() {
 	}
 
 	self.resetSettings = function() {
-		self.baseScore(config.baseScore);
-		self.pointTotal(config.pointTotal);
-		self.scoreCap(config.scoreCap);
+		self.baseScore(config().baseScore);
+		self.pointTotal(config().pointTotal);
+		self.scoreCap(config().scoreCap);
 	}
 
 	self.resetAll = function() {
@@ -121,6 +124,16 @@ function CalculatorViewModel() {
 		self.resetPointCosts();
 		self.resetSettings();
 	}
+
+	self.changeConfig = function (newConfig) {
+		console.log("Old Config");
+		console.log(config);
+		console.log("New Config");
+		console.log(newConfig);
+		config(newConfig);
+		self.resetAll();
+	}
 }
 
-ko.applyBindings(new CalculatorViewModel());
+my = { viewModel: new CalculatorViewModel() };
+ko.applyBindings(my.viewModel);

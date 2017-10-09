@@ -19,7 +19,7 @@
 
 #point-costs {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 1em;
   grid-auto-rows: min-max(100px, auto);
   padding-top: 2rem; }

@@ -49,19 +49,31 @@ function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
 		}
 	};
 
-	self.calculate = function(previous, direction) {
-
-	};
-
 	self.reset = function() {
+		while(self.scoreOffset() != 0) {
+		 if(self.scoreOffset() > 0) {
+				self.decrease();
+			}
+		 if(self.scoreOffset() < 0) {
+				self.increase();
+			}
+		}
+		console.log(self.scoreOffset());
+	}
 
-	};
 }
 
 function PointCost(score, cost) {
 	var self = this;
+	var originalScore = score;
+	var originalCost = cost;
 	self.score = ko.observable(score);
 	self.cost = ko.observable(cost);
+
+	self.reset = function() {
+		self.score(originalScore);
+		self.cost(originalCost);
+	};
 }
 
 function CalculatorViewModel() {
@@ -82,12 +94,33 @@ function CalculatorViewModel() {
 	}
 
 	self.abilityRows = ko.observableArray();
-	for(var i = 0; i < config.abilityNames.length; i++){
+	for (var i = 0; i < config.abilityNames.length; i++){
 		self.abilityRows.push(new AbilityRow(config.abilityNames[i], self.baseScore, self.pointCosts, self.pointsOffset))
 	}
 
-	//TODO: Add reset all
-	
+	self.resetAbilities = function() {
+		ko.utils.arrayForEach(self.abilityRows(), function(row) {
+			row.reset();
+		});
+	}
+
+	self.resetPointCosts = function() {
+		ko.utils.arrayForEach(self.pointCosts(), function(cost) {
+			cost.reset();
+		});
+	}
+
+	self.resetSettings = function() {
+		self.baseScore(config.baseScore);
+		self.pointTotal(config.pointTotal);
+		self.scoreCap(config.scoreCap);
+	}
+
+	self.resetAll = function() {
+		self.resetAbilities();
+		self.resetPointCosts();
+		self.resetSettings();
+	}
 }
 
 ko.applyBindings(new CalculatorViewModel());

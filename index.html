@@ -10,14 +10,17 @@
 </head>
 <body>
 	<h1>Point Buy Calculator</h1>
-	<div class="config">
-		<h2>Config</h2>
+	<button data-bind="click: resetAll()">Reset All</button>
+	<div class="settings">
+		<h2>Settings</h2>
+		<button data-bind="click: resetSettings()">Reset Settings</button>
 		<p>Base Score: <input type="number" data-bind="value: baseScore"></p>
 		<p>Point Total: <input type="number" data-bind="value: pointTotal"></p>
 		<p>Score Cap: <input type="number" data-bind="value: scoreCap"></p>
 	</div>
 
 	<h2>Point Costs</h2>
+	<button data-bind="click: resetPointCosts()">Reset Point Costs</button>
 	<table id="point-costs">
 		<tbody data-bind="foreach: pointCosts">
 			<tr>
@@ -28,6 +31,7 @@
 	</table>
 
 	<h2>Points Remaining: <span data-bind="text: pointPool"></span></h2>
+	<button data-bind="click: resetAbilities()">Reset All Scores</button>
 	<table id="score-table">
 		<thead>
 		<tr>
@@ -47,9 +51,10 @@
 			</td>
 			<td data-bind="text: totalPointCost"></td>
 			<td data-bind="text: modifier"></td>
+			<td><button data-bind="click: reset()">Reset Score</button></td>
 		</tr>
 	</tbody>
 	</table>
 
 </body>
-</html>
+<!-- </html> -->

@@ -1,0 +1,78 @@
+
+//Change colors
+$primary-color: #f60;
+$link-color: #f93;
+$font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+.center {
+	margin: 0 auto!important;
+}
+
+#scores {
+	$score-size: 2.4rem;
+	.value {
+		font-size: $score-size;
+		font-weight: 500;
+	}
+
+	.score {
+		top: $score-size;
+		position: relative;
+	}
+
+	tbody {
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+}
+
+#preset {
+	h4 {
+		display: inline-block;
+	}
+}
+
+#settings {
+	.reset {
+		margin-left: 50%;
+	}
+}
+
+#point-costs {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-gap: 1em;
+	grid-auto-rows: min-max(100px, auto);
+
+	padding-top: 2rem;
+
+	.point-cost-div {
+		float: left;
+		width: 50%;
+		input[type="number"] {
+			// padding: 0;
+			width: 100%;
+		}
+
+		}
+
+		.score {
+			font-size: 2rem;
+			text-align: center;
+			top: .3rem;
+			position: relative;
+		}
+}
+
+.value-button {
+	display: block;
+	height: 3em;
+	width: 3em;
+	padding: 1em;
+	line-height: 1em;
+}
+@import "lib/Skeleton-Sass-master/scss/skeleton.scss";
+
+th, td {
+	text-align: center;
+}

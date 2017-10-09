@@ -4,7 +4,7 @@ I was dissatisfied with the configurability of existing point buy calculators, s
 
 You can change the values in config.js to whatever you'd like. The point costs and ability modifiers array are in order of what ability score they apply to.
 
-Built with [Knockout JS](http://knockoutjs.com).
+Built with [Knockout JS](http://knockoutjs.com) and [Skeleton CSS](http://getskeleton.com).
 
 Road Map:
 * Support for multiple default settings!

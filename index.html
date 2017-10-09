@@ -1,60 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang-"en">
 <head>
 	<meta charset="UTF-8"> 
 	<title>Point Buy Calculator</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="lib/Skeleton-2.0.4/css/normalize.css">
+  <link rel="stylesheet" href="lib/Skeleton-2.0.4/css/skeleton.css">
 	<link rel="stylesheet" href="style.css">
+  
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
 	<script src="lib/knockout-3.4.2.js" defer></script>
 	<script src="config.js" defer></script>
 	<script src="calculator.js" defer></script>
 </head>
 <body>
-	<h1>Point Buy Calculator</h1>
-	<button data-bind="click: resetAll()">Reset All</button>
-	<div class="settings">
-		<h2>Settings</h2>
-		<button data-bind="click: resetSettings()">Reset Settings</button>
-		<p>Base Score: <input type="number" data-bind="value: baseScore"></p>
-		<p>Point Total: <input type="number" data-bind="value: pointTotal"></p>
-		<p>Score Cap: <input type="number" data-bind="value: scoreCap"></p>
+	<div class="container">
+		<div class="row">
+			<h1>Point Buy Calculator</h1>
+			<button data-bind="click: resetAll()">Reset All</button>
+		</div>
+		<div class="row">
+			<div class="one-third column">
+				<div id="point-costs">
+					<h2>Point Costs</h2>
+					<button data-bind="click: resetPointCosts()">Reset Point Costs</button>
+					<table id="point-costs">
+						<tbody data-bind="foreach: pointCosts">
+							<tr>
+								<td data-bind="text: score"></td>
+								<td><input type="number" data-bind="value: cost"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="two-thirds column">
+				<div id="settings">
+					<h2>Settings</h2>
+					<button data-bind="click: resetSettings()">Reset Settings</button>
+					<p>Base Score: <input type="number" data-bind="value: baseScore"></p>
+					<p>Point Total: <input type="number" data-bind="value: pointTotal"></p>
+					<p>Score Cap: <input type="number" data-bind="value: scoreCap"></p>
+				</div>
+				
+				<div id="scores">
+					<h2>Points Remaining: <span data-bind="text: pointPool"></span></h2>
+					<button data-bind="click: resetAbilities()">Reset All Scores</button>
+					<table>
+						<thead>
+						<tr>
+							<th>Ability</th>
+							<th>Score</th>
+							<th>Point Cost</th>
+							<th>Modifier</th>
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: abilityRows">
+						<tr>
+							<td data-bind="text: name"></td>
+							<td>
+								<span data-bind="text: score"></span>
+								<button data-bind="click: increase, enable: score() < $root.scoreCap()">+</button>
+								<button data-bind="click: decrease, enable: score() > 1">-</button>
+							</td>
+							<td data-bind="text: totalPointCost"></td>
+							<td data-bind="text: modifier"></td>
+							<td><button data-bind="click: reset()">Reset Score</button></td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
 	</div>
-
-	<h2>Point Costs</h2>
-	<button data-bind="click: resetPointCosts()">Reset Point Costs</button>
-	<table id="point-costs">
-		<tbody data-bind="foreach: pointCosts">
-			<tr>
-				<td data-bind="text: score"></td>
-				<td><input type="number" data-bind="value: cost"></td>
-			</tr>
-		</tbody>
-	</table>
-
-	<h2>Points Remaining: <span data-bind="text: pointPool"></span></h2>
-	<button data-bind="click: resetAbilities()">Reset All Scores</button>
-	<table id="score-table">
-		<thead>
-		<tr>
-			<th>Ability</th>
-			<th>Score</th>
-			<th>Point Cost</th>
-			<th>Modifier</th>
-		</tr>
-	</thead>
-	<tbody data-bind="foreach: abilityRows">
-		<tr>
-			<td data-bind="text: name"></td>
-			<td>
-				<span data-bind="text: score"></span>
-				<button data-bind="click: increase, enable: score() < $root.scoreCap()">+</button>
-				<button data-bind="click: decrease, enable: score() > 1">-</button>
-			</td>
-			<td data-bind="text: totalPointCost"></td>
-			<td data-bind="text: modifier"></td>
-			<td><button data-bind="click: reset()">Reset Score</button></td>
-		</tr>
-	</tbody>
-	</table>
-
 </body>
 <!-- </html> -->

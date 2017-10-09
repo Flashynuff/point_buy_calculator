@@ -42,7 +42,7 @@
 			<td data-bind="text: name"></td>
 			<td>
 				<span data-bind="text: score"></span>
-				<button data-bind="click: increase, enable: score() < config.scoreCap">+</button>
+				<button data-bind="click: increase, enable: score() < $root.scoreCap()">+</button>
 				<button data-bind="click: decrease, enable: score() > 1">-</button>
 			</td>
 			<td data-bind="text: totalPointCost"></td>

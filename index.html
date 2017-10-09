@@ -11,7 +11,7 @@
   
   <link rel="icon" type="image/png" href="images/favicon.png">
 
-	<script src="lib/knockout-3.4.2.js" defer></script>
+	<script src="lib/knockout-3.4.2.debug.js" defer></script>
 	<script src="config.js" defer></script>
 	<script src="calculator.js" defer></script>
 </head>
@@ -49,7 +49,7 @@
 									<button class="value-button decrease" data-bind="click: decrease, enable: score() > 1">-</button>
 							</div>
 						</td>
-						<td class="value" data-bind="text: totalPointCost"></td>
+						<td class="value" data-bind="text: totalCost"></td>
 						<td class="value" data-bind="text: modifier"></td>
 						<td><button data-bind="click: reset()">Reset Score</button></td>
 					</tr>
@@ -100,7 +100,7 @@
 
 					<div class="row">
 						<div class="one-third column">
-							<button class="add-point-cost center">Add Point Cost</button>
+							<button class="add-point-cost center" data-bind="click: addPointScore">Add Point Cost</button>
 						</div>
 						<div class="one-third column">
 							<button class="add-point-cost center">Remove Point Cost</button>

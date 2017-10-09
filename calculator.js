@@ -1,9 +1,9 @@
-var config = ko.observable(defaultConfig);
+var config = ko.observable(configArray[1]);
 config.subscribe(function(newValue) {
 	my.viewModel.resetAll();	
 });
 
-function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
+function AbilityRow(name, baseScore, pointCosts) {
 	var self = this;
 	self.name = name;
 	self.scoreOffset = ko.observable(0)
@@ -11,7 +11,7 @@ function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
 		return parseInt(baseScore()) + parseInt(self.scoreOffset());
 	}, this);
 
-	self.totalPointCost = ko.computed(function() {
+	self.totalCost = ko.computed(function() {
 		return pointCosts()[self.score() - 1].cost();
 	}, this);
 
@@ -19,40 +19,13 @@ function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
 		return config().abilityModifiers[self.score() - 1];
 	}, this);
 
-	self.increase = function() {
-		//change the ability score
-		var prevScoreOffset = self.scoreOffset();
-		var prevPointsUsed = pointsOffset();
-		//If the score is higher than the base, we're adding to the points offset.
-		if(self.score() >= baseScore()) {
-			self.scoreOffset(prevScoreOffset + 1);
-			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
-			pointsOffset(prevPointsUsed + cost);
-		}
-		//If the score is lower than the base, we're removing from it.
-		else {
-			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
-			pointsOffset(prevPointsUsed + cost);
-			self.scoreOffset(prevScoreOffset + 1);
-		}
-	};
+	self.increase = function () {
+		self.scoreOffset(self.scoreOffset() + 1);
+	}
 
 	self.decrease = function() {
-		var prevScoreOffset = self.scoreOffset();
-		var prevPointsUsed = pointsOffset();
-
-		//same deal as increasing, except the signs are switched.
-		if(self.score() > baseScore()) {
-			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
-			pointsOffset(prevPointsUsed - cost);
-			self.scoreOffset(prevScoreOffset - 1);
-		}
-		else {
-			self.scoreOffset(prevScoreOffset - 1);
-			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
-			pointsOffset(prevPointsUsed - cost);
-		}
-	};
+		self.scoreOffset(self.scoreOffset() - 1);
+	}
 
 	self.reset = function() {
 		while(self.scoreOffset() != 0) {
@@ -82,24 +55,43 @@ function CalculatorViewModel() {
 	self.baseScore = ko.observable(config().baseScore);
 	self.pointTotal = ko.observable(config().pointTotal);
 	self.scoreCap = ko.observable(config().scoreCap);
-	self.pointsOffset = ko.observable(0);
-	self.pointPool = ko.computed(function() {
-		return parseInt(self.pointTotal()) - parseInt(self.pointsOffset())
-	})
 
-	self.pointCosts = ko.observableArray();
-	for (var i = 0; i < config().pointCosts.length; i++){
-		self.pointCosts.push(
-			new PointCost((i + 1), config().pointCosts[i])
-		);
-	}
+
+	self.pointCosts = ko.computed(function() {
+		var all = ko.observableArray([]);
+		for (var i = 0; i < config().pointCosts.length; i++){
+			all().push(
+				new PointCost((i + 1), config().pointCosts[i])
+			);
+		}
+		return all()
+	});
 
 	self.abilityRows = ko.observableArray();
 	for (var i = 0; i < config().abilityNames.length; i++){
-		self.abilityRows.push(new AbilityRow(config().abilityNames[i], self.baseScore, self.pointCosts, self.pointsOffset))
+		self.abilityRows.push(new AbilityRow(config().abilityNames[i], self.baseScore, self.pointCosts))
 	}
+	
+	self.pointsOffset = ko.computed(function() {
+		var sum = 0;
+		for (var i = 0; i < self.abilityRows().length; i++) {
+			sum = sum + self.abilityRows()[i].totalCost();
+		}
+		return sum;
+	});
+	self.pointPool = ko.computed(function() {
+		return parseInt(self.pointTotal()) - parseInt(self.pointsOffset())
+	});
+
+
 
 	self.configs = ko.observableArray(configArray);
+
+	self.addPointScore = function() {
+	// 	// config().pointCosts.push(0);
+	// 	console.log(all());
+	// 	all().push(new PointCost(all().length, 0));
+	}
 
 	self.resetAbilities = function() {
 		ko.utils.arrayForEach(self.abilityRows(), function(row) {
@@ -123,15 +115,6 @@ function CalculatorViewModel() {
 		self.resetAbilities();
 		self.resetPointCosts();
 		self.resetSettings();
-	}
-
-	self.changeConfig = function (newConfig) {
-		console.log("Old Config");
-		console.log(config);
-		console.log("New Config");
-		console.log(newConfig);
-		config(newConfig);
-		self.resetAll();
 	}
 }
 

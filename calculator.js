@@ -15,19 +15,46 @@ function AbilityRow(name, baseScore, pointCosts, pointsOffset) {
 	}, this);
 
 	self.increase = function() {
+		//change the ability score
 		var prevScoreOffset = self.scoreOffset();
-		self.scoreOffset(prevScoreOffset + 1);
 		var prevPointsUsed = pointsOffset();
-		var cost = Math.abs(pointCosts()[self.score() - 1].cost());
-		pointsOffset(prevPointsUsed + cost);
+		//If the score is higher than the base, we're adding to the points offset.
+		if(self.score() >= baseScore()) {
+			self.scoreOffset(prevScoreOffset + 1);
+			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
+			pointsOffset(prevPointsUsed + cost);
+		}
+		//If the score is lower than the base, we're removing from it.
+		else {
+			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
+			pointsOffset(prevPointsUsed + cost);
+			self.scoreOffset(prevScoreOffset + 1);
+		}
 	};
 
 	self.decrease = function() {
 		var prevScoreOffset = self.scoreOffset();
-		self.scoreOffset(prevScoreOffset - 1);
 		var prevPointsUsed = pointsOffset();
-		var cost = Math.abs(pointCosts()[self.score() - 1].cost());
-		pointsOffset(prevPointsUsed - cost);
+
+		//same deal as increasing, except the signs are switched.
+		if(self.score() > baseScore()) {
+			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
+			pointsOffset(prevPointsUsed - cost);
+			self.scoreOffset(prevScoreOffset - 1);
+		}
+		else {
+			self.scoreOffset(prevScoreOffset - 1);
+			var cost = Math.abs(pointCosts()[self.score() - 1].cost());
+			pointsOffset(prevPointsUsed - cost);
+		}
+	};
+
+	self.calculate = function(previous, direction) {
+
+	};
+
+	self.reset = function() {
+
 	};
 }
 

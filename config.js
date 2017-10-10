@@ -8,8 +8,8 @@ function Config(name, baseScore, pointTotal, scoreCap, pointCosts, abilityModifi
 	this.abilityNames = abilityNames;
 } 
 
-var defaultConfig = new Config(
-	"Default",
+var customConfig = new Config(
+	"Custom",
 	6,
 	31,
 	18,
@@ -38,4 +38,4 @@ var pathfinderStandard = new Config(
 	["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]
 );
 
-var configArray = [defaultConfig, dnd5eStandard, pathfinderStandard];
+var configArray = [dnd5eStandard, pathfinderStandard, customConfig];

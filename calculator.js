@@ -1,4 +1,4 @@
-var config = ko.observable(configArray[1]);
+var config = ko.observable(configArray[0]);
 config.subscribe(function(newValue) {
 	my.viewModel.resetAll();	
 });
@@ -67,10 +67,18 @@ function CalculatorViewModel() {
 		return all()
 	});
 
-	self.abilityRows = ko.observableArray();
-	for (var i = 0; i < config().abilityNames.length; i++){
-		self.abilityRows.push(new AbilityRow(config().abilityNames[i], self.baseScore, self.pointCosts))
-	}
+	self.abilityRows = ko.computed(function() {
+		var all = ko.observableArray([]);
+		for (var i = 0; i < config().abilityNames.length; i++){
+			all().push(new AbilityRow(config().abilityNames[i], self.baseScore, self.pointCosts));
+		}
+		return all()
+	})
+
+	// self.abilityRows = ko.observableArray();
+	// for (var i = 0; i < config().abilityNames.length; i++){
+	// 	self.abilityRows.push(new AbilityRow(config().abilityNames[i], self.baseScore, self.pointCosts))
+	// }
 	
 	self.pointsOffset = ko.computed(function() {
 		var sum = 0;

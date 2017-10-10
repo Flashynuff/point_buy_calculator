@@ -45,8 +45,8 @@
 								<p class="value" data-bind="text: score"></p>
 							</div>
 							<div class="value-buttons one-half column">
-								<button class="value-button increase" data-bind="click: increase, enable: score() < $root.scoreCap()">+</button>
-									<button class="value-button decrease" data-bind="click: decrease, enable: score() > 1">-</button>
+								<button class="value-button increase" data-bind="click: increase, enable: score() < $root.maxScore()">+</button>
+									<button class="value-button decrease" data-bind="click: decrease, enable: score() > $root.minScore()">-</button>
 							</div>
 						</td>
 						<td class="value" data-bind="text: totalCost"></td>
@@ -77,17 +77,21 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="one-third column">
+					<div class="three columns">
 						<h5>Base Score</h5>
 						<input type="number" data-bind="value: baseScore">
 					</div>
-					<div class="one-third column">
+					<div class="three columns">
 						<h5>Point Total</h5>
 						<input type="number" data-bind="value: pointTotal">
 					</div>
-					<div class="one-third column">
-						<h5>Score Cap</h5>
-						<input type="number" data-bind="value: scoreCap">
+					<div class="three columns">
+						<h5>Max Score</h5>
+						<input type="number" data-bind="value: maxScore">
+					</div>
+					<div class="three columns">
+						<h5>Min Score</h5>
+						<input type="number" data-bind="value: minScore">
 					</div>
 				</div>
 		</div>

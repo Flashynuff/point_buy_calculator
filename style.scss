@@ -71,7 +71,13 @@ $font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, 
 	padding: 1em;
 	line-height: 1em;
 }
+
 @import "lib/Skeleton-Sass-master/scss/skeleton.scss";
+
+button[disabled] {
+	color: $border-color;
+	border-color: $border-color;
+}
 
 th, td {
 	text-align: center;

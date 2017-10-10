@@ -709,6 +709,10 @@ ol,
 form {
   margin-bottom: 2.5rem; }
 
+button[disabled] {
+  color: #bbb;
+  border-color: #bbb; }
+
 th, td {
   text-align: center; }
 

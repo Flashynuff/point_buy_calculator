@@ -54,7 +54,8 @@ function CalculatorViewModel() {
 	var self = this;
 	self.baseScore = ko.observable(config().baseScore);
 	self.pointTotal = ko.observable(config().pointTotal);
-	self.scoreCap = ko.observable(config().scoreCap);
+	self.maxScore = ko.observable(config().maxScore);
+	self.minScore = ko.observable(config().minScore);
 
 
 	self.pointCosts = ko.computed(function() {
@@ -116,7 +117,8 @@ function CalculatorViewModel() {
 	self.resetSettings = function() {
 		self.baseScore(config().baseScore);
 		self.pointTotal(config().pointTotal);
-		self.scoreCap(config().scoreCap);
+		self.maxScore(config().maxScore);
+		self.minScore(config().minScore);
 	}
 
 	self.resetAll = function() {

@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang-"en">
 <head>
-	<meta charset="UTF-8"> 
+	<meta charset="UTF-8">
 	<title>Point Buy Calculator</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
 	<link rel="stylesheet" href="style.css">
-  
-  <link rel="icon" type="image/png" href="images/favicon.png">
-
+	
+	<link rel="icon" type="image/png" href="images/favicon.png">
 	<script src="lib/knockout-3.4.2.js" defer></script>
 	<script src="config.js" defer></script>
 	<script src="calculator.js" defer></script>
@@ -20,108 +17,97 @@
 		<div class="row">
 			<h1><a href="https://github.com/Flashynuff/point_buy_calculator">Point Buy Calculator</a></h1>
 		</div>
-		<div id="scores">
-
+		
+		<div id="ability-scores">
 			<div class="row">
 				<h3 class="six columns">Points Remaining: <span data-bind="text: pointPool"></span></h3>
-				
+				<button class="button-primary"  data-bind="click: resetAbilities()">Reset All Scores</button>
 			</div>
-
-			<table class="u-full-width">
-				<thead>
-					<tr>
-						<th >Ability</th>
-						<th >Score</th>
-						<th >Point Cost</th>
-						<th >Modifier</th>
-						<th ><button class="button-primary"  data-bind="click: resetAbilities()">Reset All Scores</button></th>
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: abilityRows">
-					<tr>
-						<td data-bind="text: name"></td>
-						<td>
-							<div class="score one-half column">
-								<p class="value" data-bind="text: score"></p>
-							</div>
-							<div class="value-buttons one-half column">
-								<button class="value-button increase" data-bind="click: increase, enable: score() < $root.maxScore()">+</button>
-									<button class="value-button decrease" data-bind="click: decrease, enable: score() > $root.minScore()">-</button>
-							</div>
-						</td>
-						<td class="value" data-bind="text: totalCost"></td>
-						<td class="value" data-bind="text: modifier"></td>
-						<td><button data-bind="click: reset()">Reset Score</button></td>
-					</tr>
-				</tbody>
-			</table>
+			<div id="ability-rows" data-bind="foreach: abilityRows">
+				<div class="ability-row">
+					<div class="left">
+						<div class="name">
+							<p data-bind="text: name"></p>
+						</div>
+						<div class="bar">
+							<button class="decrease" title="Decrease Score" data-bind="click: decrease, enable: score() > $root.minScore()">-</button>
+							<div class="cost" title="Point Cost"><span  class="value" data-bind="text: totalCost"></span> pts</div>
+							<button class="increase" title="Increase Score" data-bind="click: increase, enable: score() < $root.maxScore()">+</button>
+						</div>
+					</div>
+					<div class="right">
+						<p class="score" title="Ability Score" data-bind="text: score"></p>
+						<div class="mod-reset">
+							<p class="mod" title="Ability Modifier" data-bind="text: modifier"></p>
+							<button class="reset" title="Reset Score" data-bind="click: reset()">⟲</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-
 		<div id="settings">
-				<div class="row">
-					<h2 class="u-full-width">Settings</h2>
+			<div class="row">
+				<h2 class="u-full-width">Settings</h2>
+			</div>
+			<div class="row">
+				<div id ="preset" class="one-half column">
+					<h4>
+					Select Preset:
+					</h4>
+					<select name="presets" id="presets" data-bind="options: configs,
+						optionsText: function(item) { return item.name; },
+						value: config
+						">
+					</select>
 				</div>
-				<div class="row">
-					<div id ="preset" class="one-half column">
-						<h4>
-							Select Preset:
-						</h4>
-							<select name="presets" id="presets" data-bind="options: configs,
-							optionsText: function(item) { return item.name; },
-							value: config
-							">
-							</select>
-					</div>
-					<div class="one-half column">
-						<button class="reset button-primary" data-bind="click: resetSettings()">Reset Settings</button>
-					</div>
+				<div class="one-half column">
+					<button class="reset button-primary" data-bind="click: resetSettings()">Reset Settings</button>
 				</div>
-				<div class="row">
-					<div class="three columns">
-						<h5>Base Score</h5>
-						<input type="number" data-bind="value: baseScore">
-					</div>
-					<div class="three columns">
-						<h5>Point Total</h5>
-						<input type="number" data-bind="value: pointTotal">
-					</div>
-					<div class="three columns">
-						<h5>Max Score</h5>
-						<input type="number" data-bind="value: maxScore">
-					</div>
-					<div class="three columns">
-						<h5>Min Score</h5>
-						<input type="number" data-bind="value: minScore">
-					</div>
+			</div>
+			<div class="row">
+				<div class="three columns">
+					<h5>Base Score</h5>
+					<input type="number" data-bind="value: baseScore">
 				</div>
+				<div class="three columns">
+					<h5>Point Total</h5>
+					<input type="number" data-bind="value: pointTotal">
+				</div>
+				<div class="three columns">
+					<h5>Max Score</h5>
+					<input type="number" data-bind="value: maxScore">
+				</div>
+				<div class="three columns">
+					<h5>Min Score</h5>
+					<input type="number" data-bind="value: minScore">
+				</div>
+			</div>
 		</div>
-
-			<div >
-				<div>
-					<div class="row">
-						<h2>Point Costs</h2>
+		<div >
+			<div>
+				<div class="row">
+					<h2>Point Costs</h2>
+				</div>
+				<div class="row">
+					<div class="one-third column">
+						<button disabled=""class="add-point-cost center" data-bind="click: addPointScore">Add Point Cost</button>
 					</div>
-
-					<div class="row">
-						<div class="one-third column">
-							<button disabled=""class="add-point-cost center" data-bind="click: addPointScore">Add Point Cost</button>
-						</div>
-						<div class="one-third column">
-							<button disabled="" class="add-point-cost center">Remove Point Cost</button>
-						</div>
-						<div class="one-third column">
-							<button class="reset button-primary center" data-bind="click: resetPointCosts()">Reset Point Costs</button>
-						</div>
+					<div class="one-third column">
+						<button disabled="" class="add-point-cost center">Remove Point Cost</button>
 					</div>
-					<div id="point-costs" data-bind="foreach: pointCosts">
-						<div class="point-cost">
-							<div class="point-cost-div score" data-bind="text: score"></div>
-							<div class="point-cost-div"><input type="number" data-bind="value: cost"></div>
-							<div class="u-cf"></div>
-						</div>
+					<div class="one-third column">
+						<button class="reset button-primary center" data-bind="click: resetPointCosts()">Reset Point Costs</button>
+					</div>
+				</div>
+				<div id="point-costs" data-bind="foreach: pointCosts">
+					<div class="point-cost">
+						<div class="point-cost-div score" data-bind="text: score"></div>
+						<div class="point-cost-div"><input type="number" data-bind="value: cost"></div>
+						<div class="u-cf"></div>
 					</div>
 				</div>
 			</div>
+		</div>
 		
 		<div class="row">
 			<button class="button-primary" data-bind="click: resetAll()">Reset All</button>

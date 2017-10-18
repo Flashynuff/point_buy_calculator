@@ -1,84 +1,93 @@
+html {
+	font-family: "Open Sans", Sans;
+}
 
-//Change colors
+$background: white;
 $primary-color: #f60;
 $link-color: #f93;
-$font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;	
 
-.center {
-	margin: 0 auto!important;
-}
-
-#scores {
-	$score-size: 2.4rem;
-	.value {
-		font-size: $score-size;
-		font-weight: 500;
-	}
-
-	.score {
-		top: $score-size;
-		position: relative;
-	}
-
-	tbody {
-		padding-top: 8px;
-		padding-bottom: 8px;
-	}
-}
-
-#preset {
-	h4 {
-		display: inline-block;
-	}
-}
-
-#settings {
-	.reset {
-		margin-left: 50%;
-	}
-}
-
-#point-costs {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	grid-gap: 1em;
-	grid-auto-rows: min-max(100px, auto);
-
-	padding-top: 2rem;
-
-	.point-cost-div {
-		float: left;
-		width: 50%;
-		input[type="number"] {
-			// padding: 0;
-			width: 100%;
-		}
-
-		}
-
-		.score {
-			font-size: 2rem;
-			text-align: center;
-			top: .3rem;
-			position: relative;
-		}
-}
-
-.value-button {
-	display: block;
-	height: 3em;
-	width: 3em;
+.ability-row {
+	padding-bottom: 1em;
+	background-color: $background;
 	padding: 1em;
-	line-height: 1em;
-}
+	width: 90%;
+	margin-right: auto;
+	margin-left: auto;
+	display: flex;
 
-@import "lib/Skeleton-Sass-master/scss/skeleton.scss";
+	.left {
+		width: 50%;
+		display: flex;
+		flex-direction: column;
+		
+		.name {
+			flex-grow: 2;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			p {
+				margin-top: 0;
+				margin-bottom: 0;
+				font-variant-caps: small-caps;
+			}
+		}
+		
+		.bar {
+			display: flex;
+			flex-grow: 1;
+			align-items: center;
+			height: 33%;
+			* {
+				flex-grow: 1;
+				text-align: center;
+			}
+		}
+		
+	}
 
-button[disabled] {
-	color: $border-color;
-	border-color: $border-color;
-}
+	.right {
+		width: 50%;
+		display: flex;
+		align-items: center;
+		text-align: center;
+		
+		.score {
+			flex-grow: 1;
+		}
+		
+		.mod-reset {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			align-items: center;
+			
+			.mod {
+        margin: 0;
+				margin-bottom:1em;
+			}
+		}
+	}
 
-th, td {
-	text-align: center;
+	button {
+		background-color: $background;
+		border-style: solid;
+		border-width: 1px;
+		border-color: black;
+		position: relative;
+		
+		padding-top: .25em;
+		padding-bottom: .25em;
+		
+		box-shadow: 1px 1px black;
+		
+		&:hover:active {
+			box-shadow: none;
+			top:  1px;
+			left: 1px;
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+	}
 }

@@ -13,16 +13,42 @@
 	<script src="calculator.js" defer></script>
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<h1><a href="https://github.com/Flashynuff/point_buy_calculator">Point Buy Calculator</a></h1>
-		</div>
-		
-		<div id="ability-scores">
-			<div class="row">
-				<h3 class="six columns">Points Remaining: <span data-bind="text: pointPool"></span></h3>
-				<button class="button-primary"  data-bind="click: resetAbilities()">Reset All Scores</button>
+	
+
+	<div class="headerbox-relative">
+		<h1 class="title"><a href="https://github.com/Flashynuff/point_buy_calculator">Point Buy Calculator</a></h1>
+
+		<div class="container">
+			<div class="points-remaining">
+				<p class="point-pool" data-bind="text: pointPool"></p>
+				<div class="points-text"><div>points</div><div>left</div></div>
 			</div>
+			
+			<div class="menu-wrapper">
+				<select name="presets" id="presets" data-bind="options: configs,
+						optionsText: function(item) { return item.name; },
+						value: config
+						">
+					</select>
+			</div>
+		</div>
+	</div>
+	<div class="headerbox-fixed">
+			<div class="points-remaining">
+				<p class="point-pool" data-bind="text: pointPool"></p>
+				<p class="points-text">pts</p>
+			</div>
+			<h2 class="">Point Buy Calculator</h2>
+			<div class="menu-wrapper">
+				<select name="presets" id="presets" data-bind="options: configs,
+							optionsText: function(item) { return item.name; },
+							value: config
+							">
+						</select>
+			</div>
+	</div>
+	<div class="container">
+		<div id="ability-scores">
 			<div id="ability-rows" data-bind="foreach: abilityRows">
 				<div class="ability-row">
 					<div class="left">
@@ -30,16 +56,16 @@
 							<p data-bind="text: name"></p>
 						</div>
 						<div class="bar">
-							<button class="decrease" title="Decrease Score" data-bind="click: decrease, enable: score() > $root.minScore()">-</button>
+							<button class="button decrease" title="Decrease Score" data-bind="click: decrease, enable: score() > $root.minScore()">-</button>
 							<div class="cost" title="Point Cost"><span  class="value" data-bind="text: totalCost"></span> pts</div>
-							<button class="increase" title="Increase Score" data-bind="click: increase, enable: score() < $root.maxScore()">+</button>
+							<button class="button increase" title="Increase Score" data-bind="click: increase, enable: score() < $root.maxScore()">+</button>
 						</div>
 					</div>
 					<div class="right">
 						<p class="score" title="Ability Score" data-bind="text: score"></p>
 						<div class="mod-reset">
 							<p class="mod" title="Ability Modifier" data-bind="text: modifier"></p>
-							<button class="reset" title="Reset Score" data-bind="click: reset()">⟲</button>
+							<button class="button reset" title="Reset Score" data-bind="click: reset()">⟲</button>
 						</div>
 					</div>
 				</div>

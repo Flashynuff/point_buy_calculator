@@ -1,4 +1,4 @@
-# [DnD Point Buy Calculator](https://flashynuff.github.io/point_buy_calculator/)
+# [DnD Point Buy Calculator](https://connorkrupa.github.io/point_buy_calculator/)
 
 I was dissatisfied with the configurability of existing point buy calculators, so I made my own.
 
